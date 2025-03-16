@@ -91,3 +91,23 @@ kalloc(void)
   return (void*)r;
 }
 
+// Tra ve so byte con trong cua bo nho he thong
+uint64 freemem(void){
+  struct run *r;
+  uint64 byte_count = 0;
+
+  // Khoa lai de tranh race condition
+  acquire(&kmem.lock);
+
+  r = kmem.freelist;
+  while(r){
+    byte_count += PGSIZE;
+    r = r->next;
+  }
+
+  // Mo lai khoa
+  release(&kmem.lock);
+
+  return byte_count;
+}
+
