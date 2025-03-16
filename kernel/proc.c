@@ -693,3 +693,23 @@ procdump(void)
     printf("\n");
   }
 }
+
+// Tra ve so cac tien trinh khong co trang thai: UNUSED
+uint64 getnproc(void){
+  struct proc *p;
+  uint64 proc_count = 0;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    // Khoa tien trinh de tranh race condition
+    acquire(&p->lock);
+
+    if(p->state != UNUSED){
+      proc_count++;
+    }
+
+    // Mo lai khoa cho tien trinh
+    release(&p->lock);
+  }
+
+  return proc_count;
+}
