@@ -102,6 +102,7 @@ extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
 extern uint64 sys_sysinfo(void);
+extern uint64 sys_trace(void);
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -179,12 +180,4 @@ syscall(void)
             p->pid, p->name, num);
     p->trapframe->a0 = -1;
   }
-}
-
-uint64 sys_trace(void)
-{
-    int mask;
-    argint(0, &mask);
-    myproc()->trace_mask = mask;
-    return 0;
 }

@@ -22,7 +22,3 @@
 #define SYS_close  21
 #define SYS_sysinfo 22
 #define SYS_trace 23
-
-#ifndef __ASSEMBLER__
-uint64 sys_trace(void);
-#endif
